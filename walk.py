@@ -31,9 +31,7 @@ for (_, _, files) in os.walk(path):
 		w = open('processedtweets/' + filename, 'w')
 		with open(path + '/' + filename, 'r') as f:
 			f.readline() # ignore first line
-			theRest = f.readlines()
-			for thing in theRest: 
-				thing.strip('\n')
+			theRest = f.read()
 			if filename == "2008_01.js": pprint.pprint(theRest)
 			w.write(json.dumps(theRest))
 			#w.write(str(theRest)) # write everything else

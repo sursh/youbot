@@ -6,8 +6,7 @@ import json
 def readjson(filename):
   json_data = open(filename, 'r')
   data = json.load(json_data)
-  for thing in data:
-    print thing['text']
+  print data # LEFT OFF HERE
   json_data.close
 
 def readcsv(filename):
