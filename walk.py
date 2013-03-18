@@ -2,6 +2,8 @@
 
 import os
 import re
+import json
+import pprint
 
 DEBUG = True
 path = "tweets"
@@ -29,8 +31,11 @@ for (_, _, files) in os.walk(path):
 		w = open('processedtweets/' + filename, 'w')
 		with open(path + '/' + filename, 'r') as f:
 			f.readline() # ignore first line
-			theRest = f.readlines() 
-			w.write(str(theRest)) # write everything else
+			theRest = f.readlines()
+			for thing in theRest: 
+				thing.strip('\n')
+			if filename == "2008_01.js": pprint.pprint(theRest)
+			w.write(json.dumps(theRest))
+			#w.write(str(theRest)) # write everything else
 
 	w.close()
-	# Write the processed files to /processedtweets
