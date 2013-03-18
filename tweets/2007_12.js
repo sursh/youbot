@@ -1,5 +1,5 @@
-Grailbird.data.tweets_2007_12 = 
- [ {
+[
+  {
   "source" : "<a href=\"http://twitter.com/devices\" rel=\"nofollow\">txt</a>",
   "entities" : {
     "user_mentions" : [ ],
@@ -160,4 +160,5 @@ Grailbird.data.tweets_2007_12 =
     "id" : 11381522,
     "verified" : false
   }
-} ]
+}]
+
