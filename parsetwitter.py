@@ -11,9 +11,11 @@ DEBUG = True
 PATH = "data/js/tweets"
 TWEETLIST = "justTheTweets.txt"
 
+
 def createPath(path):
   if not os.path.isdir(path):
     os.mkdir(path)
+
 
 def processArchive(path):
   ''' Crawls data/ from twitter and returns list of tweet files '''
@@ -33,6 +35,7 @@ def processArchive(path):
 
   return files 
 
+
 def parseFiles(files, path):
   ''' Writes all tweets to text file '''
   
@@ -46,6 +49,7 @@ def parseFiles(files, path):
 
   w.close()
 
+
 def cleanTweets(line):
   ''' Removes mentions, replies, and links '''
 
@@ -58,6 +62,7 @@ def cleanTweets(line):
 
   return ' '.join(line)
 
+
 def parseTweets(f):
   ''' Returns text of all tweets in a given file object'''
   tweets = []
@@ -67,6 +72,7 @@ def parseTweets(f):
     payload = cleanTweets(payload)
     tweets.append(payload)
   return "\n".join(tweets)
+
 
 def main():
   if len(sys.argv) != 1:
