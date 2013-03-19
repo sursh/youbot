@@ -5,7 +5,7 @@ import numpy
 import string
 #import twitterclient
 
-DEBUG = True
+TWEETING = False
 
 class Markov(object):
 
@@ -107,18 +107,31 @@ class Markov(object):
     return paragraph
 
 
-def markovIt(filename):
+def markovIt(filename, number = 1):
   print "* Generating tweets. This may take a while."
   m = Markov()
-  m.generateMatrix(filename)
+  m.generateMatrix(filename) # memory-intensive
 
-  # construct new chains that will fit in a tweet
-  while True:
-    tweet = m.generateParagraph() 
-    if len(tweet) < 120:
-      break
+  if not TWEETING:
+    for i in range(number):
 
-  if DEBUG: print("Tweeting: '%s'" % tweet) 
+      while True:
+        tweet = m.generateParagraph() 
+        if len(tweet) < 120: # leave room for RTs
+          break
+
+      print tweet
+
+  # To use, add your credentials to twitterclient.py
+  if TWEETING:
+    
+    while True:
+      tweet = m.generateParagraph() 
+      if len(tweet) < 120:
+        break
+
+    twitterclient.postTweet(tweet)
+
 
 if __name__ == '__main__':
   main()

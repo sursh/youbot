@@ -5,9 +5,12 @@ TODO
 [ ] preprocessing: check that the first line has the twitter nonsense. should be a [ char
 [x] instead of making a new dir with the files, pull out the tweets and put them into their own file
 [x] have it output sensible logging
-[ ] make file paths more flexible: track them in the filelist
+[-] make file paths more flexible: track them in the filelist
 [x] remove mentions!
-[ ] fix bug: check for 'just the tweets' file, if exists, don't recreate
+[x] fix bug: check for 'just the tweets' file, if exists, don't recreate
+[ ] make it so that i can generate more than one at a time
+[ ] package up for sharing
+[ ] CLEAN REPO OF CREDENTIALS BEFORE PUSHING. add sterile twitterclient.py file
 
 README
 

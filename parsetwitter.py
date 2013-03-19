@@ -13,7 +13,8 @@ TWEETLIST = "justTheTweets.txt"
 
 
 def processArchive(path):
-  ''' Crawls data/ from twitter and returns list of tweet files '''
+  ''' Crawls /data from twitter and returns list of files 
+      containing tweets '''
 
   if not os.path.isdir(path):
     print "Path '%s' not found." % path
@@ -78,13 +79,13 @@ def parseTweets(f):
 
 def main():
 
-  if len(sys.argv) != 1:
-    print 'usage: $ python %s' % sys.argv[0]
+  if len(sys.argv) != 2:
+    print 'usage: $ python %s <number_of_tweets>' % sys.argv[0]
     sys.exit(1)
 
   fileList = processArchive(PATH)
   parseFiles(fileList, PATH)
-  markovgenerator.markovIt(TWEETLIST)
+  markovgenerator.markovIt(TWEETLIST, int(sys.argv[1]))
 
 if __name__ == '__main__':
   main()
