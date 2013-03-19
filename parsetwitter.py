@@ -14,6 +14,7 @@ def createPath(path):
     os.mkdir(path)
 
 def processArchive(path):
+  ''' Crawls data dir and returns list of tweet files '''
 
   if not os.path.isdir(path):
     print "Path '%s' not found." % path
@@ -27,29 +28,27 @@ def processArchive(path):
         files.remove(filename) # remove from index, doesn't touch file
     print "Found %s months of tweets." % len(files)
 
-    ''' TODO: fix this bit so that instead of writing out to 
-        a new directory, it just adds the tweets to a file.
-        basically merge in readjson() 
-        make sure to filter out any mentions '''
-    # write out the processed .js tweets to the /processedtweets directory
-    createPath('processedtweets')
-    for filename in files:
-      w = open('processedtweets/' + filename, 'w')
-      with open(path + '/' + filename, 'r') as f:
-        f.readline() # ignore first line
-        ''' TODO: check contents of first line '''
-        theRest = f.read()
-        if not DEBUG: 
-          if filename == "2008_01.js": pprint.pprint(theRest)
-        w.write(json.dumps(theRest))
-      w.close()
+  return files 
 
+def parseFiles(files, path):
+  ''' Writes all tweets to text file '''
+  
+  w = open('justTheTweets.txt', 'a')
+  for filename in files:
+    with open(path + '/' + filename, 'r') as f:
+      f.readline() # ignore the first line
+       # parse the rest
+      w.write(parseTweets(f))
+  w.close()
 
-def readjson(filename):
-  json_data = open(filename, 'r')
-  data = json.load(json_data)
-  print data # LEFT OFF HERE
-  json_data.close
+def parseTweets(f):
+  ''' Returns text of all tweets in a given file object'''
+  tweets = []
+  json_data = json.load(f)
+  for tweet in json_data: 
+    tweets.append(tweet['text'].encode('ascii', 'ignore'))
+  if DEBUG: print tweets[0]
+  return "\n".join(tweets)
 
 ''' TODO pull in the markov script to output x number of headlines to a file '''
 
@@ -58,7 +57,8 @@ def main():
     print 'usage: $ python %s' % sys.argv[0]
     sys.exit(1)
 
-  processArchive(PATH)
+  fileList = processArchive(PATH)
+  parseFiles(fileList, PATH)
 
 if __name__ == '__main__':
   main()

@@ -5,6 +5,7 @@ TODO
 [ ] preprocessing: check that the first line has the twitter nonsense. should be a [ char
 [ ] instead of making a new dir with the files, pull out the tweets and put them into their own file
 [ ] have it output sensible logging
+[ ] make file paths more flexible: track them in the filelist
 
 README
 
