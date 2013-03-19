@@ -64,12 +64,15 @@ def cleanTweets(line):
 
 def parseTweets(f):
   ''' Returns text of all tweets in a given file object'''
+
   tweets = []
   json_data = json.load(f)
+  
   for tweet in json_data: 
     payload = tweet['text'].encode('ascii', 'ignore')
     payload = cleanTweets(payload)
     tweets.append(payload)
+  
   return "\n".join(tweets)
 
 
