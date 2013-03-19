@@ -33,16 +33,20 @@ def processArchive(path):
 
 def parseFiles(files, path):
   ''' Writes all tweets to text file '''
+
+  if os.path.isfile(TWEETLIST):
+    print "* Using existing file %s." % TWEETLIST
   
-  w = open(TWEETLIST, 'w')
-  print "* Writing tweets to %s." % TWEETLIST
+  else:
+    w = open(TWEETLIST, 'w')
+    print "* Writing tweets to %s." % TWEETLIST
 
-  for filename in files:
-    with open(path + '/' + filename, 'r') as f:
-      f.readline() # ignore the first line; it's gibberish
-      w.write(parseTweets(f))
+    for filename in files:
+      with open(path + '/' + filename, 'r') as f:
+        f.readline() # ignore the first line; it's gibberish
+        w.write(parseTweets(f))
 
-  w.close()
+    w.close()
 
 
 def cleanTweets(line):
