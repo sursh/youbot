@@ -51,12 +51,12 @@ def parse_files(files, path):
 
 
 def clean_tweets(line):
-  ''' Removes mentions, replies, and links '''
+  ''' Removes mentions, replies, RTs, and links '''
 
   line = line.split(' ')
 
   for token in line[:]:
-    if token and (token[0] == '@' or re.search(".*https*://", token)):
+    if token and (token[0] == '@' or token == 'RT' or re.search(".*https*:", token)):
         line.remove(token)
 
   return ' '.join(line)
