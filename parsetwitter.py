@@ -16,7 +16,7 @@ def createPath(path):
     os.mkdir(path)
 
 def processArchive(path):
-  ''' Crawls data dir and returns list of tweet files '''
+  ''' Crawls data/ from twitter and returns list of tweet files '''
 
   if not os.path.isdir(path):
     print "Path '%s' not found." % path
@@ -37,19 +37,26 @@ def parseFiles(files, path):
   ''' Writes all tweets to text file '''
   
   w = open(TWEETLIST, 'a')
+  print "* Writing tweets to %s." % TWEETLIST
+
   for filename in files:
     with open(path + '/' + filename, 'r') as f:
-      f.readline() # ignore the first line
+      f.readline() # ignore the first line; it's gibberish
       w.write(parseTweets(f))
-  print "* Wrote tweets to %s." % TWEETLIST
+
   w.close()
 
-def removeMentions(line):
-  print line[0]
+def cleanTweets(line):
+  ''' Removes mentions, replies, and links '''
 
-  #  if it's @, remove it and the rest of the chars until you hit a space
+  tempLine = line.split(' ')
+  line = line.split(' ')
 
-  return line
+  for token in tempLine:
+    if token and (token[0] == '@' or re.search(".*https*://", token)):
+        line.remove(token)
+
+  return ' '.join(line)
 
 def parseTweets(f):
   ''' Returns text of all tweets in a given file object'''
@@ -57,9 +64,8 @@ def parseTweets(f):
   json_data = json.load(f)
   for tweet in json_data: 
     payload = tweet['text'].encode('ascii', 'ignore')
-    removeMentions(payload)
+    payload = cleanTweets(payload)
     tweets.append(payload)
-  #if DEBUG: print "%d: %s" % (len(tweets[0]), tweets[0])
   return "\n".join(tweets)
 
 def main():
