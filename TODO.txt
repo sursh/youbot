@@ -1,0 +1,9 @@
+TODO
+
+[ ] preprocessing: check that the first line has the twitter nonsense. should be a [ char
+
+README
+
+1. download your twitter archive
+1. move the /data folder over to this repo
+1. run the script. it will: find your .js tweet files and pull out the text of the tweets, ignoring mentions, putting all tweets into one big text file. if this file is already created, subsequent runs will just generate the markov chains from the tweets. so if you want to train the bot on a different corpus, just put the training text into one big file with newlines at the end of each line. 
