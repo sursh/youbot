@@ -12,7 +12,7 @@ PATH = "."
 TWEETLIST = "justTheTweets.txt"
 
 
-def processArchive(path):
+def process_archive(path):
   ''' Crawls /data from twitter and returns list of files 
       containing tweets '''
 
@@ -32,7 +32,7 @@ def processArchive(path):
   return tweetfiles 
 
 
-def parseFiles(files, path):
+def parse_files(files, path):
   ''' Writes text of tweets to a single file '''
 
   if os.path.isfile(TWEETLIST):
@@ -45,12 +45,12 @@ def parseFiles(files, path):
     for filename in files:
       with open(filename, 'r') as f:
         f.readline() # ignore the first line; it's gibberish
-        w.write(parseTweets(f))
+        w.write(parse_tweets(f))
 
     w.close()
 
 
-def cleanTweets(line):
+def clean_tweets(line):
   ''' Removes mentions, replies, and links '''
 
   line = line.split(' ')
@@ -62,7 +62,7 @@ def cleanTweets(line):
   return ' '.join(line)
 
 
-def parseTweets(f):
+def parse_tweets(f):
   ''' Returns text of all tweets in a given file object'''
 
   tweets = []
@@ -70,7 +70,7 @@ def parseTweets(f):
   
   for tweet in json_data: 
     payload = tweet['text'].encode('ascii', 'ignore')
-    payload = cleanTweets(payload)
+    payload = clean_tweets(payload)
     tweets.append(payload)
   
   return "\n".join(tweets)
@@ -82,9 +82,9 @@ def main():
     print 'usage: $ python %s <number_of_tweets>' % sys.argv[0]
     sys.exit(1)
 
-  fileList = processArchive(PATH)
-  parseFiles(fileList, PATH)
-  markovgenerator.markovIt(TWEETLIST, int(sys.argv[1]))
+  fileList = process_archive(PATH)
+  parse_files(fileList, PATH)
+  markovgenerator.markov_it(TWEETLIST, int(sys.argv[1]))
 
 if __name__ == '__main__':
   main()

@@ -9,7 +9,7 @@ TWEETING = False
 
 class Markov(object):
 
-  def read(self, filename):
+  def read_file(self, filename):
     ''' Reads in training corpus text file. Cleans, splits, and adds beginning and end signifiers. '''
 
     with open(filename) as f:
@@ -17,7 +17,7 @@ class Markov(object):
         yield ['^', '^'] + line.strip().lower().split() + ['$']
 
 
-  def generateTrigrams(self, tokens):
+  def generate_trigrams(self, tokens):
     ''' Break headline into trigrams '''
 
     trigrams = []
@@ -28,7 +28,7 @@ class Markov(object):
     return trigrams
 
 
-  def generateMatrix(self, filename):
+  def generate_matrix(self, filename):
     ''' Run through the list of trigrams and add them to the occurence matrix.
 
         There are two data structures here: 
@@ -47,11 +47,11 @@ class Markov(object):
     self.matrix = {}
     self.bigrams = defaultdict(list)
 
-    headlines = self.read(filename)
+    headlines = self.read_file(filename)
 
     for headline in headlines:
 
-      trigrams = self.generateTrigrams(headline)
+      trigrams = self.generate_trigrams(headline)
 
       for trigram in trigrams:
 
@@ -65,7 +65,7 @@ class Markov(object):
         self.matrix[trigram] = (1 + old_count, True)
 
 
-  def generateNextWord(self, prev_word, current_word):
+  def generate_next_word(self, prev_word, current_word):
     ''' Based on prev_word and current_word, returns a third word to follow '''
 
     bigram = (prev_word, current_word)
@@ -89,11 +89,11 @@ class Markov(object):
         return words[index]
 
 
-  def generateParagraph(self, initial_word=None):
+  def generate_paragraph(self, initial_word=None):
     ''' Generates a new headline '''
     
     if not initial_word:
-        initial_word = self.generateNextWord('^', '^')
+        initial_word = self.generate_next_word('^', '^')
         
     prev_word = '^'
     current_word = initial_word
@@ -101,22 +101,22 @@ class Markov(object):
 
     while (current_word != '$'): 
       paragraph.append(current_word)
-      prev_word, current_word = current_word, self.generateNextWord( prev_word, current_word )
+      prev_word, current_word = current_word, self.generate_next_word( prev_word, current_word )
 
     paragraph = ' '.join(paragraph[1:])  # strip off leading caret
     return paragraph
 
 
-def markovIt(filename, number = 1):
+def markov_it(filename, number = 1):
   print "* Generating tweets. This may take a while."
   m = Markov()
-  m.generateMatrix(filename) # memory-intensive
+  m.generate_matrix(filename) # memory-intensive
 
   if not TWEETING:
     for i in range(number):
 
       while True:
-        tweet = m.generateParagraph() 
+        tweet = m.generate_paragraph() 
         if len(tweet) < 120: # leave room for RTs
           break
 
@@ -126,7 +126,7 @@ def markovIt(filename, number = 1):
   if TWEETING:
     
     while True:
-      tweet = m.generateParagraph() 
+      tweet = m.generate_paragraph() 
       if len(tweet) < 120:
         break
 
