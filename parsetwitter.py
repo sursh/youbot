@@ -23,7 +23,7 @@ def processArchive(path):
   for (_, _, files) in os.walk(path):
 
     # index the files & ignore non-.js files
-    for filename in files: 
+    for filename in files[:]: 
       if not re.search('\d{4}_\d{2}.js', filename):
         print "* Ignoring %s." % filename
         files.remove(filename) # remove from index, doesn't touch file
@@ -53,10 +53,9 @@ def parseFiles(files, path):
 def cleanTweets(line):
   ''' Removes mentions, replies, and links '''
 
-  tempLine = line.split(' ')
   line = line.split(' ')
 
-  for token in tempLine:
+  for token in line[:]:
     if token and (token[0] == '@' or re.search(".*https*://", token)):
         line.remove(token)
 
