@@ -4,7 +4,6 @@ import os
 import sys
 import json
 import re
-from pprint import pprint
 import markovgenerator
 
 DEBUG = True
@@ -32,7 +31,7 @@ def process_archive(path):
     return tweetfiles 
 
 
-def parse_files(files, path):
+def parse_files(files):
     ''' Writes text of tweets to a single file '''
 
     if os.path.isfile(TWEETLIST):
@@ -56,7 +55,8 @@ def clean_tweets(line):
     line = line.split(' ')
 
     for token in line[:]:
-        if token and (token[0] == '@' or token == 'RT' or re.search(".*https*:", token)):
+        if token and (token[0] == '@' or token == 'RT'  \
+                      or re.search(".*https*:", token)):
             line.remove(token)
 
     return ' '.join(line)
@@ -82,8 +82,8 @@ def main():
         print 'usage: $ python %s <number_of_tweets>' % sys.argv[0]
         sys.exit(1)
 
-    fileList = process_archive(PATH)
-    parse_files(fileList, PATH)
+    filelist = process_archive(PATH)
+    parse_files(filelist)
     markovgenerator.markov_it(TWEETLIST, int(sys.argv[1]))
 
 if __name__ == '__main__':
