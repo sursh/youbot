@@ -12,11 +12,6 @@ PATH = "data/js/tweets"
 TWEETLIST = "justTheTweets.txt"
 
 
-def createPath(path):
-  if not os.path.isdir(path):
-    os.mkdir(path)
-
-
 def processArchive(path):
   ''' Crawls data/ from twitter and returns list of tweet files '''
 
@@ -39,7 +34,7 @@ def processArchive(path):
 def parseFiles(files, path):
   ''' Writes all tweets to text file '''
   
-  w = open(TWEETLIST, 'a')
+  w = open(TWEETLIST, 'w')
   print "* Writing tweets to %s." % TWEETLIST
 
   for filename in files:
@@ -75,6 +70,7 @@ def parseTweets(f):
 
 
 def main():
+
   if len(sys.argv) != 1:
     print 'usage: $ python %s' % sys.argv[0]
     sys.exit(1)
