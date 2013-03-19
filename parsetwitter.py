@@ -9,6 +9,7 @@ import markovgenerator
 
 DEBUG = True
 PATH = "data/js/tweets"
+TWEETLIST = "justTheTweets.txt"
 
 def createPath(path):
   if not os.path.isdir(path):
@@ -35,24 +36,31 @@ def processArchive(path):
 def parseFiles(files, path):
   ''' Writes all tweets to text file '''
   
-  w = open('justTheTweets.txt', 'a')
+  w = open(TWEETLIST, 'a')
   for filename in files:
     with open(path + '/' + filename, 'r') as f:
       f.readline() # ignore the first line
       w.write(parseTweets(f))
-  print "* Wrote %d months of tweets" % len(files)
+  print "* Wrote tweets to %s." % TWEETLIST
   w.close()
+
+def removeMentions(line):
+  print line[0]
+
+  #  if it's @, remove it and the rest of the chars until you hit a space
+
+  return line
 
 def parseTweets(f):
   ''' Returns text of all tweets in a given file object'''
   tweets = []
   json_data = json.load(f)
   for tweet in json_data: 
-    tweets.append(tweet['text'].encode('ascii', 'ignore'))
+    payload = tweet['text'].encode('ascii', 'ignore')
+    removeMentions(payload)
+    tweets.append(payload)
   #if DEBUG: print "%d: %s" % (len(tweets[0]), tweets[0])
   return "\n".join(tweets)
-
-''' TODO pull in the markov script to output x number of headlines to a file '''
 
 def main():
   if len(sys.argv) != 1:
@@ -61,7 +69,7 @@ def main():
 
   fileList = processArchive(PATH)
   parseFiles(fileList, PATH)
-  markovgenerator.markovIt('justTheTweets.txt')
+  markovgenerator.markovIt(TWEETLIST)
 
 if __name__ == '__main__':
   main()
