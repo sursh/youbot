@@ -2,18 +2,18 @@ TODO
 
 [x] put all functions into one file
 [x] comment up the file with the different bits that need to be done
-[ ] preprocessing: check that the first line has the twitter nonsense. should be a [ char
 [x] instead of making a new dir with the files, pull out the tweets and put them into their own file
 [x] have it output sensible logging
-[-] make file paths more flexible: track them in the filelist
+[x] make file paths more flexible: track them in the filelist
 [x] remove mentions!
 [x] fix bug: check for 'just the tweets' file, if exists, don't recreate
-[ ] make it so that i can generate more than one at a time
+[x] make it so that i can generate more than one at a time
 [ ] package up for sharing
 [ ] CLEAN REPO OF CREDENTIALS BEFORE PUSHING. add sterile twitterclient.py file
 
 README
 
-1. download your twitter archive
-1. move the /data folder over to this repo
-1. run the script. it will: find your .js tweet files and pull out the text of the tweets, ignoring mentions, putting all tweets into one big text file. if this file is already created, subsequent runs will just generate the markov chains from the tweets. so if you want to train the bot on a different corpus, just put the training text into one big file with newlines at the end of each line. 
+1. Download your Twitter archive from Twitter
+2. Move the data/ folder into the repo
+3. Run the script. 
+4. If you want to train the bot on a different corpus, just put the training text into one big file with newlines at the end of each line.

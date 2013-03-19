@@ -8,7 +8,7 @@ from pprint import pprint
 import markovgenerator
 
 DEBUG = True
-PATH = "data/js/tweets"
+PATH = "."
 TWEETLIST = "justTheTweets.txt"
 
 
@@ -20,20 +20,20 @@ def processArchive(path):
     print "Path '%s' not found." % path
     sys.exit(1)
 
-  for (_, _, files) in os.walk(path):
+  tweetfiles = []
 
+  for (root, _, files) in os.walk(path):
     # index the files & ignore non-.js files
     for filename in files[:]: 
-      if not re.search('\d{4}_\d{2}.js', filename):
-        print "* Ignoring %s." % filename
-        files.remove(filename) # remove from index, doesn't touch file
-    print "* Found %s months of tweets." % len(files)
-
-  return files 
+      if re.search('\d{4}_\d{2}.js', filename):
+        tweetfiles.append(os.path.join(root, filename))
+  
+  print "* Found %s months of tweets." % len(files)
+  return tweetfiles 
 
 
 def parseFiles(files, path):
-  ''' Writes all tweets to text file '''
+  ''' Writes text of tweets to a single file '''
 
   if os.path.isfile(TWEETLIST):
     print "* Using existing file %s." % TWEETLIST
@@ -43,7 +43,7 @@ def parseFiles(files, path):
     print "* Writing tweets to %s." % TWEETLIST
 
     for filename in files:
-      with open(path + '/' + filename, 'r') as f:
+      with open(filename, 'r') as f:
         f.readline() # ignore the first line; it's gibberish
         w.write(parseTweets(f))
 
