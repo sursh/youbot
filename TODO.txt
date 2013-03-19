@@ -1,6 +1,8 @@
 TODO
 
+[ ] put all functions into one file
 [ ] preprocessing: check that the first line has the twitter nonsense. should be a [ char
+[ ] instead of making a new dir with the files, pull out the tweets and put them into their own file
 
 README
 
