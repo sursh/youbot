@@ -12,7 +12,7 @@ TWEETLIST = "justTheTweets.txt"
 
 
 def process_archive(path):
-    ''' Crawls /data from twitter and returns list of files 
+    ''' Crawls /data from twitter and returns list of files
             containing tweets '''
 
     if not os.path.isdir(path):
@@ -23,12 +23,14 @@ def process_archive(path):
 
     # index the files & ignore non-.js files
     for (root, _, files) in os.walk(path):
-        for filename in files[:]: 
+        for filename in files[:]:
             if re.search('\d{4}_\d{2}.js', filename):
+                print "joining ", root, filename
                 tweetfiles.append(os.path.join(root, filename))
-    
+
+
     print "* Found %s months of tweets." % len(files)
-    return tweetfiles 
+    return tweetfiles
 
 
 def parse_files(files):
@@ -36,7 +38,7 @@ def parse_files(files):
 
     if os.path.isfile(TWEETLIST):
         print "* Using existing file %s." % TWEETLIST
-    
+
     else:
         w = open(TWEETLIST, 'w')
         print "* Writing tweets to %s." % TWEETLIST
@@ -67,12 +69,12 @@ def parse_tweets(f):
 
     tweets = []
     json_data = json.load(f)
-    
-    for tweet in json_data: 
+
+    for tweet in json_data:
         payload = tweet['text'].encode('ascii', 'ignore')
         payload = clean_tweets(payload)
         tweets.append(payload)
-    
+
     return "\n".join(tweets)
 
 
