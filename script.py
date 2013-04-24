@@ -40,16 +40,12 @@ def parse_files(files):
         print "* Using existing file %s." % TWEETLIST
 
     else:
-        w = open(TWEETLIST, 'w')
-        print "* Writing tweets to %s." % TWEETLIST
-
         for filename in files:
-            with open(filename, 'r') as f:
-                f.readline() # ignore the first line; it's gibberish
-                w.write(parse_tweets(f))
-
-        w.close()
-
+            with open(TWEETLIST, 'w') as w:
+                print "* Writing tweets to %s." % TWEETLIST
+                with open(filename, 'r') as f:
+                    f.readline() # ignore the first line; it's gibberish
+                    w.write(parse_tweets(f))
 
 def clean_tweets(line):
     ''' Removes mentions, replies, RTs, and links '''
